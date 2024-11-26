@@ -1,31 +1,196 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 
-const ProductDetalis = () => {
-    return (
-        <>
-            <div>
+const ProductDetails = ({ selectedColor, setSelectedColor }) => {
+  const [selectedPurity, setSelectedPurity] = useState("14kt");
+  const [selectedSize, setSelectedSize] = useState("6");
+  const [price, setPrice] = useState(120943); // Default price
 
-                <p>
+  const sizes = Array.from({ length: 21 }, (_, i) => (i + 6).toString()); // Ring sizes
 
-                    Home » Unwavering Devotion Diamond Band Ring
+  const priceMap = {
+    "14kt": {
+      "6": 120943,
+      "7": 122000,
+      "8": 123500,
+      "9": 125000,
+      "10": 126500,
+      "11": 128000,
+      "12": 130000,
+      "13": 132000,
+      "14": 134000,
+      "15": 136000,
+      "16": 138000,
+      "17": 140000,
+      "18": 142000,
+      "19": 144000,
+      "20": 146000,
+      "21": 148000,
+      "22": 150000,
+      "23": 152000,
+      "24": 154000,
+      "25": 156000,
+      "26": 158000,
+    },
+    "18kt": {
+      "6": 145000,
+      "7": 146400,
+      "8": 147800,
+      "9": 149300,
+      "10": 150800,
+      "11": 152400,
+      "12": 154000,
+      "13": 156000,
+      "14": 158000,
+      "15": 160000,
+      "16": 162000,
+      "17": 164000,
+      "18": 166000,
+      "19": 168000,
+      "20": 170000,
+      "21": 172000,
+      "22": 174000,
+      "23": 176000,
+      "24": 178000,
+      "25": 180000,
+      "26": 182000,
+    },
+  };
 
-                    SKU: WRI156614RG10
-                </p>
-            </div>
+  // Function to update the price based on size and purity
+  const calculatePrice = () => {
+    let adjustedPrice = priceMap[selectedPurity][selectedSize] || priceMap["14kt"]["6"];
+    setPrice(adjustedPrice);
+  };
 
-            <div className="titel">
-            Unwavering Devotion Diamond Band Ring
-            </div>
+  useEffect(() => {
+    calculatePrice();
+  }, [selectedPurity, selectedSize]); 
 
-            <div className="Price">
-            120,943
-            </div>
+  // SKU mapping based on color
+  const skuMap = {
+    pink: "WRI156614RG10",
+    gray: "WRI156614WG10",
+    gold: "WRI156614YG10",
+  };
 
-            
-            
-    </>
-    )
-}
+  return (
+    <div className="p-6 text-left max-w-4xl mx-auto">
+      {/* Breadcrumb */}
+      <div className="text-sm text-gray-500 mb-4">
+        Home &gt;{" "}
+        <span className="text-gray-700">Unwavering Devotion Diamond Band Ring</span>
+      </div>
+      <div>
+        {/* Dynamically render SKU based on selected color */}
+        <span className="text-gray-700">SKU: {skuMap[selectedColor]}</span>
+      </div>
 
+      {/* Title and Price */}
+      <h1 className="text-3xl font-semibold text-gray-800 mt-2">
+        Unwavering Devotion Diamond<br /> Band Ring
+      </h1>
+      <p className="text-4xl font-bold text-gray-800 mt-2">₹{price.toLocaleString()}</p>
+      <p className="text-gray-500 mt-1">
+        Price inclusive of taxes. See the full{" "}
+        <a href="#" className="text-[#3d8dbe]">
+          price breakup
+        </a>
+      </p>
 
-export default ProductDetalis
+      {/* Offer Section */}
+      <div className="mt-6 p-4 bg-[#3455A4] flex items-center justify-between rounded-md">
+        <p className="font-medium text-white">
+          GET IT FOR ₹{(price * 0.85).toLocaleString()}{" "}
+          <span className="font-bold text-white">Use SOLI20</span>
+        </p>
+        <div className="mt-2 flex items-center gap-2">
+          <button className="bg-white text-sm rounded text-[#3d8ebe] py-1 px-3">
+            Apply
+          </button>
+          <button className="bg-white text-sm rounded text-[#3d8ebe] py-1 px-3">
+            More Offers
+          </button>
+        </div>
+      </div>
+
+      {/* Color  Section */}
+      <div className="mt-6 flex items-center gap-6">
+        <p className="text-sm text-gray-800 font-medium">COLOR</p>
+        {["pink", "gray", "gold"].map((color) => (
+          <button
+            key={color}
+            className={`w-8 h-8 rounded-full border-2 ${selectedColor === color ? "ring-2 ring-black" : ""}`}
+            style={{ backgroundColor: color }}
+            onClick={() => setSelectedColor(color)}
+          />
+        ))}
+      </div>
+
+      {/* Purity */}
+      <div className="mt-6">
+        <div className="flex items-center gap-6">
+          <p className="text-sm text-gray-800 font-medium">PURITY</p>
+          {["14kt", "18kt"].map((purity) => (
+            <button
+              key={purity}
+              className={`px-6 py-2 border rounded ${selectedPurity === purity
+                ? "bg-gray-800 text-white border-gray-800"
+                : "bg-white text-gray-800 border-gray-300"
+                }`}
+              onClick={() => setSelectedPurity(purity)}
+            >
+              {purity}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Ring Size */}
+      <div className="mt-6">
+        <div className="flex items-center gap-6">
+          <p className="text-sm text-gray-800 font-medium">RING SIZE</p>
+          <select
+            className="px-4 py-2 border rounded w-20 text-gray-800"
+            value={selectedSize}
+            onChange={(e) => setSelectedSize(e.target.value)}
+          >
+            {sizes.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+          <button
+            className="text-sm text-gray-600 underline"
+            onClick={() => setSelectedSize("")}
+          >
+            Clear
+          </button>
+        </div>
+        <p className="text-sm text-[#3d8ebe] mt-1 cursor-pointer">
+          Ring Size Guide
+        </p>
+      </div>
+
+      {/* Buttons */}
+      <div className="mt-8 flex gap-6">
+        <button className="flex-1 py-3 bg-[#012F49] text-white font-medium rounded-lg hover:bg-[#024563] transition">
+          ADD TO CART
+        </button>
+        <button className="flex-1 py-3 bg-[#012F49] text-white font-medium rounded-lg hover:bg-[#024563] transition">
+          BUY NOW
+        </button>
+      </div>
+
+      {/* Delivery Information */}
+      <div className="mt-6 text-sm text-gray-600">
+        <a href="#" className="underline text-gray-800">
+          DELIVERY & CANCELLATION
+        </a>
+        <p className="mt-2">ESTIMATED DELIVERY BY 21ST DEC 2024</p>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetails;

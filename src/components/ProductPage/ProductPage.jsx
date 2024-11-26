@@ -1,50 +1,88 @@
-  // ProductDetail.jsx
-  import React, { useState } from 'react';
-  import Rings1 from '../../assets/Rings/Rings1.jpg';
-  import Rings2 from '../../assets/Rings/Rings2.jpg';
-  import Rings3 from '../../assets/Rings/Rings3.jpg';
-  import Rings4 from '../../assets/Rings/Rings4.jpg';
-  import Rings5 from '../../assets/Rings/Rings5.jpg';
-  import Rings6 from '../../assets/Rings/Rings6.jpg';
 
-  const ProductDetail = () => {
-    const [selectedImage, setSelectedImage] = useState(Rings1);
 
-    return (
-      <div className="p-8 ">
-        <div className=" mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Left Section: Sidebar Images */}
-          <div className="flex-1">
-            <div className="flex gap-4">
-              {/* Sidebar Thumbnails */}
-              <div className="flex flex-col gap-2">
-                {[Rings1, Rings2, Rings3, Rings4, Rings5, Rings6].map((img, index) => (
-                  <img
-                    key={index}
-                    src={img}
-                    alt={`Thumbnail ${index + 1}`}
-                    className={`w-20 h-20 cursor-pointer object-cover border-2 ${selectedImage === img
-                        ? ''
-                        : 'border-transparent opacity-50 hover:opacity-100'
-                      } transition-opacity duration-300`}
-                    onClick={() => setSelectedImage(img)}
-                  />
-                ))}
-              </div>
 
-              {/* Main Display Image */}
-              <div className="flex-1 w-[510px] h-[510px]">
-                <img
-                  src={selectedImage}
-                  alt="Selected Product"
-                  className="w-full h-full object-cover shadow-md"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+
+import React, { useState } from "react";
+import ProductDetails from "../ProductDetalis/ProductDetalis";
+
+// Import all ring images
+import Rings1 from "../../assets/Rings/Rings1.jpg";
+
+import RoseGoldImg1 from "../../assets/PinkRings/PinkRings1.jpg";
+import RoseGoldImg2 from "../../assets/PinkRings/PinkRings2.jpg";
+import RoseGoldImg3 from "../../assets/PinkRings/PinkRings3.jpg";
+import RoseGoldImg4 from "../../assets/PinkRings/PinkRings4.jpg";
+import RoseGoldImg5 from "../../assets/PinkRings/PinkRings5.jpg";
+import RoseGoldImg6 from "../../assets/PinkRings/PinkRings6.jpg";
+
+import WhiteGoldImg1 from "../../assets/Chinese silver/Chinesesilver1.jpg";
+import WhiteGoldImg2 from "../../assets/Chinese silver/Chinesesilver2.jpg";
+import WhiteGoldImg3 from "../../assets/Chinese silver/Chinesesilver3.jpg";
+import WhiteGoldImg4 from "../../assets/Chinese silver/Chinesesilver4.jpg";
+import WhiteGoldImg5 from "../../assets/Chinese silver/Chinesesilver5.jpg";
+import WhiteGoldImg6 from "../../assets/Chinese silver/Chinesesilver6.jpg";
+
+import GoldRingImg1 from "../../assets/GoldRings/GoldRings1.jpg";
+import GoldRingImg2 from "../../assets/GoldRings/GoldRings2.jpg";
+import GoldRingImg3 from "../../assets/GoldRings/GoldRings3.jpg";
+import GoldRingImg4 from "../../assets/GoldRings/GoldRings4.jpg";
+import GoldRingImg5 from "../../assets/GoldRings/GoldRings5.jpg";
+import GoldRingImg6 from "../../assets/GoldRings/GoldRings6.jpg";
+
+const ProductPage = () => {
+  const [selectedImage, setSelectedImage] = useState(Rings1);
+  const [selectedColor, setSelectedColor] = useState("pink");
+
+  const imagesByColor = {
+    pink: [RoseGoldImg1, RoseGoldImg2, RoseGoldImg3, RoseGoldImg4, RoseGoldImg5, RoseGoldImg6],
+    gray: [WhiteGoldImg1, WhiteGoldImg2, WhiteGoldImg3, WhiteGoldImg4, WhiteGoldImg5, WhiteGoldImg6],
+    gold: [GoldRingImg1, GoldRingImg2, GoldRingImg3, GoldRingImg4, GoldRingImg5, GoldRingImg6],
   };
 
-  export default ProductDetail;
+  const currentImages = imagesByColor[selectedColor];
+
+  return (
+    <div className="p-8">
+      <div className="flex flex-col md:flex-row gap-10">
+        {/* Left Section: Image Section */}
+        <div className="flex flex-col md:flex-row gap-4 flex-1">
+          {/* Sidebar Thumbnails */}
+          <div className="flex flex-row md:flex-col gap-2">
+            {currentImages.map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt={`Thumbnail ${index + 1}`}
+                className={`w-20 h-20 cursor-pointer object-cover border-2 ${
+                  selectedImage === img
+                    ? "border-blue-500" // Highlight selected image
+                    : "border-transparent opacity-50 hover:opacity-100"
+                } transition-opacity duration-300`}
+                onClick={() => setSelectedImage(img)}
+              />
+            ))}
+          </div>
+
+          {/* Main Display Image */}
+          <div className="w-full md:w-[510px] h-[510px] flex justify-center items-center transition-all duration-300">
+            <img
+              src={selectedImage}
+              alt="Selected Product"
+              className="w-full h-full object-cover shadow-md transition-transform duration-300 transform scale-105"
+            />
+          </div>
+        </div>
+
+        {/* Right Section: Product Details */}
+        <div className="flex flex-col">
+          <ProductDetails
+            selectedColor={selectedColor}
+            setSelectedColor={setSelectedColor}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductPage;
