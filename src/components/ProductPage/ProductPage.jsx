@@ -1,24 +1,20 @@
 import React, { useState } from "react";
 import ProductDetails from "../ProductDetalis/ProductDetalis";
 
-
 // Import all ring images
 import Rings1 from "../../assets/Rings/Rings1.jpg";
-
 import RoseGoldImg1 from "../../assets/PinkRings/PinkRings1.jpg";
 import RoseGoldImg2 from "../../assets/PinkRings/PinkRings2.jpg";
 import RoseGoldImg3 from "../../assets/PinkRings/PinkRings3.jpg";
 import RoseGoldImg4 from "../../assets/PinkRings/PinkRings4.jpg";
 import RoseGoldImg5 from "../../assets/PinkRings/PinkRings5.jpg";
 import RoseGoldImg6 from "../../assets/PinkRings/PinkRings6.jpg";
-
 import WhiteGoldImg1 from "../../assets/Chinese silver/Chinesesilver1.jpg";
 import WhiteGoldImg2 from "../../assets/Chinese silver/Chinesesilver2.jpg";
 import WhiteGoldImg3 from "../../assets/Chinese silver/Chinesesilver3.jpg";
 import WhiteGoldImg4 from "../../assets/Chinese silver/Chinesesilver4.jpg";
 import WhiteGoldImg5 from "../../assets/Chinese silver/Chinesesilver5.jpg";
 import WhiteGoldImg6 from "../../assets/Chinese silver/Chinesesilver6.jpg";
-
 import GoldRingImg1 from "../../assets/GoldRings/GoldRings1.jpg";
 import GoldRingImg2 from "../../assets/GoldRings/GoldRings2.jpg";
 import GoldRingImg3 from "../../assets/GoldRings/GoldRings3.jpg";
@@ -38,6 +34,17 @@ const ProductPage = () => {
 
   const currentImages = imagesByColor[selectedColor];
 
+  // Zoom function
+  const zoom = (e) => {
+    const zoomer = e.currentTarget;
+    const offsetX = e.nativeEvent.offsetX;
+    const offsetY = e.nativeEvent.offsetY;
+
+    const x = (offsetX / zoomer.offsetWidth) * 100;
+    const y = (offsetY / zoomer.offsetHeight) * 100;
+    zoomer.style.backgroundPosition = `${x}% ${y}%`;
+  };
+
   return (
     <div className="p-8">
       <div className="flex flex-col md:flex-row gap-10">
@@ -50,20 +57,28 @@ const ProductPage = () => {
                 key={index}
                 src={img}
                 alt={`Thumbnail ${index + 1}`}
-                className={`w-20 h-20 cursor-pointer object-cover border-2 ${selectedImage === img
-                  ? "border-blue-500" // Highlight selected image
-                  : "border-transparent opacity-50 hover:opacity-100"
-                  } transition-opacity duration-300`}
+                className={`w-20 h-20 cursor-pointer object-cover border-2 ${selectedImage === img ? "border-blue-500" : "border-transparent opacity-50 hover:opacity-100"} transition-opacity duration-300`}
                 onClick={() => setSelectedImage(img)}
               />
             ))}
           </div>
 
-          <div className="relative w-[550px] h-[550px] flex justify-center items-center">
-            <img src={selectedImage}  alt="Zoomable" />
-           
+          {/* Zoomable Image */}
+          <div
+            className="zoom relative w-[550px] h-[550px] flex justify-center items-center overflow-hidden"
+            style={{
+              backgroundImage: `url(${selectedImage})`,
+              backgroundSize: "200%", // Makes the image zoomed in
+              backgroundRepeat: "no-repeat",
+            }}
+            onMouseMove={zoom} // Trigger zoom on mouse move
+          >
+            <img
+              src={selectedImage}
+              alt="Zoomable"
+              className="w-full h-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110 opacity-100"
+            />
           </div>
-
         </div>
 
         {/* Right Section: Product Details */}
