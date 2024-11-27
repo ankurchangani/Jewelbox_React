@@ -1,9 +1,6 @@
-
-
-
-
 import React, { useState } from "react";
 import ProductDetails from "../ProductDetalis/ProductDetalis";
+import ZoomImage from "../Zoomable/Zoomable";
 
 // Import all ring images
 import Rings1 from "../../assets/Rings/Rings1.jpg";
@@ -28,6 +25,10 @@ import GoldRingImg3 from "../../assets/GoldRings/GoldRings3.jpg";
 import GoldRingImg4 from "../../assets/GoldRings/GoldRings4.jpg";
 import GoldRingImg5 from "../../assets/GoldRings/GoldRings5.jpg";
 import GoldRingImg6 from "../../assets/GoldRings/GoldRings6.jpg";
+
+
+
+
 
 const ProductPage = () => {
   const [selectedImage, setSelectedImage] = useState(Rings1);
@@ -64,12 +65,11 @@ const ProductPage = () => {
           </div>
 
           {/* Main Display Image */}
-          <div className="w-full md:w-[510px] h-[510px] flex justify-center items-center transition-all duration-300">
-            <img
-              src={selectedImage}
-              alt="Selected Product"
-              className="w-full h-full object-cover shadow-md transition-transform duration-300 transform scale-105"
-            />
+          <div className="w-full md:w-[560px] h-[560px]">
+            {/* Fancybox for displaying the image in a lightbox */}
+            <a data-fancybox="gallery" href={selectedImage}>
+              <ZoomImage src={selectedImage} />
+            </a>
           </div>
         </div>
 

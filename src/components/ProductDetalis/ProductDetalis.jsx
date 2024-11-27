@@ -1,70 +1,42 @@
+
+
+
+
 import React, { useState, useEffect } from "react";
+import { useCart } from "../AddToCart/AddToCart";
+
 
 const ProductDetails = ({ selectedColor, setSelectedColor }) => {
   const [selectedPurity, setSelectedPurity] = useState("14kt");
   const [selectedSize, setSelectedSize] = useState("6");
   const [price, setPrice] = useState(120943); // Default price
 
+  const { addToCart } = useCart();
+
   const sizes = Array.from({ length: 21 }, (_, i) => (i + 6).toString()); // Ring sizes
 
+  // Price mapping
   const priceMap = {
-    "14kt": {
-      "6": 120943,
-      "7": 122000,
-      "8": 123500,
-      "9": 125000,
-      "10": 126500,
-      "11": 128000,
-      "12": 130000,
-      "13": 132000,
-      "14": 134000,
-      "15": 136000,
-      "16": 138000,
-      "17": 140000,
-      "18": 142000,
-      "19": 144000,
-      "20": 146000,
-      "21": 148000,
-      "22": 150000,
-      "23": 152000,
-      "24": 154000,
-      "25": 156000,
-      "26": 158000,
-    },
-    "18kt": {
-      "6": 145000,
-      "7": 146400,
-      "8": 147800,
-      "9": 149300,
-      "10": 150800,
-      "11": 152400,
-      "12": 154000,
-      "13": 156000,
-      "14": 158000,
-      "15": 160000,
-      "16": 162000,
-      "17": 164000,
-      "18": 166000,
-      "19": 168000,
-      "20": 170000,
-      "21": 172000,
-      "22": 174000,
-      "23": 176000,
-      "24": 178000,
-      "25": 180000,
-      "26": 182000,
-    },
+    "14kt": 120943, 
+    "18kt": 145000, 
   };
 
-  // Function to update the price based on size and purity
-  const calculatePrice = () => {
-    let adjustedPrice = priceMap[selectedPurity][selectedSize] || priceMap["14kt"]["6"];
-    setPrice(adjustedPrice);
+  const sizeIncrementMap = {
+    "14kt": 1000, 
+    "18kt": 1400, 
+  };
+
+  // Function to calculate the price dynamically
+  const calculatePrice = (purity, size) => {
+    const basePrice = priceMap[purity];
+    const sizeIncrement = sizeIncrementMap[purity];
+    const sizeDifference = parseInt(size) - 10; // Size 6 is the base
+    return basePrice + sizeDifference * sizeIncrement;
   };
 
   useEffect(() => {
-    calculatePrice();
-  }, [selectedPurity, selectedSize]); 
+    setPrice(calculatePrice(selectedPurity, selectedSize));
+  }, [selectedPurity, selectedSize]);
 
   // SKU mapping based on color
   const skuMap = {
@@ -78,18 +50,18 @@ const ProductDetails = ({ selectedColor, setSelectedColor }) => {
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-4">
         Home &gt;{" "}
-        <span className="text-gray-700">Unwavering Devotion Diamond Band Ring</span>
+        <span className="text-gray-700 ">Unwavering Devotion Diamond Band Ring</span>
       </div>
       <div>
         {/* Dynamically render SKU based on selected color */}
-        <span className="text-gray-700">SKU: {skuMap[selectedColor]}</span>
+        <span className="text-gray-700 text-[12px]">SKU: {skuMap[selectedColor]}</span>
       </div>
 
       {/* Title and Price */}
-      <h1 className="text-3xl font-semibold text-gray-800 mt-2">
+      <h1 className="text-3xl font-semibold text-gray-800 mt-2 text-[24px]">
         Unwavering Devotion Diamond<br /> Band Ring
       </h1>
-      <p className="text-4xl font-bold text-gray-800 mt-2">₹{price.toLocaleString()}</p>
+      <p className="text-4xl font-bold text-gray-800 mt-2 text-[32px]">₹{price.toLocaleString()}</p>
       <p className="text-gray-500 mt-1">
         Price inclusive of taxes. See the full{" "}
         <a href="#" className="text-[#3d8dbe]">
@@ -98,13 +70,13 @@ const ProductDetails = ({ selectedColor, setSelectedColor }) => {
       </p>
 
       {/* Offer Section */}
-      <div className="mt-6 p-4 bg-[#3455A4] flex items-center justify-between rounded-md">
-        <p className="font-medium text-white">
+      <div className="mt-6 p-2 bg-[#3455A4] flex items-center justify-between rounded-md">
+        <p className="font-medium text-white mt-3">
           GET IT FOR ₹{(price * 0.85).toLocaleString()}{" "}
           <span className="font-bold text-white">Use SOLI20</span>
         </p>
         <div className="mt-2 flex items-center gap-2">
-          <button className="bg-white text-sm rounded text-[#3d8ebe] py-1 px-3">
+          <button className="bg-white text-sm rounded text-[#3d8ebe] py-1 px-3 mx-2">
             Apply
           </button>
           <button className="bg-white text-sm rounded text-[#3d8ebe] py-1 px-3">
@@ -113,7 +85,7 @@ const ProductDetails = ({ selectedColor, setSelectedColor }) => {
         </div>
       </div>
 
-      {/* Color  Section */}
+      {/* Color Section */}
       <div className="mt-6 flex items-center gap-6">
         <p className="text-sm text-gray-800 font-medium">COLOR</p>
         {["pink", "gray", "gold"].map((color) => (
@@ -174,7 +146,7 @@ const ProductDetails = ({ selectedColor, setSelectedColor }) => {
 
       {/* Buttons */}
       <div className="mt-8 flex gap-6">
-        <button className="flex-1 py-3 bg-[#012F49] text-white font-medium rounded-lg hover:bg-[#024563] transition">
+        <button className="flex-1 py-3 bg-[#012F49] text-white font-medium rounded-lg hover:bg-[#024563] transition" onClick={addToCart}>
           ADD TO CART
         </button>
         <button className="flex-1 py-3 bg-[#012F49] text-white font-medium rounded-lg hover:bg-[#024563] transition">
