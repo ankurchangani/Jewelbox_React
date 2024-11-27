@@ -57,7 +57,7 @@ const ProductPage = () => {
                 key={index}
                 src={img}
                 alt={`Thumbnail ${index + 1}`}
-                className={`w-20 h-20 cursor-pointer object-cover border-2 ${selectedImage === img ? "border-blue-500" : "border-transparent opacity-50 hover:opacity-100"} transition-opacity duration-300`}
+                className={`w-20 h-20 cursor-pointer object-cover border-2 ${selectedImage === img ? "" : "border-transparent opacity-50 hover:opacity-100"} transition-opacity duration-300`}
                 onClick={() => setSelectedImage(img)}
               />
             ))}
