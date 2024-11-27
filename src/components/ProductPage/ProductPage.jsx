@@ -68,10 +68,10 @@ const ProductPage = () => {
             className="zoom relative w-[550px] h-[550px] flex justify-center items-center overflow-hidden"
             style={{
               backgroundImage: `url(${selectedImage})`,
-              backgroundSize: "200%", // Makes the image zoomed in
+              backgroundSize: "200%", 
               backgroundRepeat: "no-repeat",
             }}
-            onMouseMove={zoom} // Trigger zoom on mouse move
+            onMouseMove={zoom}
           >
             <img
               src={selectedImage}
