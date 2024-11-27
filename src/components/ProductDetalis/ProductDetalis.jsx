@@ -68,6 +68,7 @@ const ProductDetails = ({ selectedColor, setSelectedColor }) => {
           price breakup
         </a>
       </p>
+        <span className="text-[#3d8dbe]  text-[11px]">Loyalty Special offer for you</span>
 
       {/* Offer Section */}
       <div className="mt-6 p-2 bg-[#3455A4] flex items-center justify-between rounded-md">

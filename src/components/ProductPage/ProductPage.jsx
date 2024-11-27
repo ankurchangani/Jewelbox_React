@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ProductDetails from "../ProductDetalis/ProductDetalis";
-import ZoomImage from "../Zoomable/Zoomable";
+
 
 // Import all ring images
 import Rings1 from "../../assets/Rings/Rings1.jpg";
@@ -26,10 +26,6 @@ import GoldRingImg4 from "../../assets/GoldRings/GoldRings4.jpg";
 import GoldRingImg5 from "../../assets/GoldRings/GoldRings5.jpg";
 import GoldRingImg6 from "../../assets/GoldRings/GoldRings6.jpg";
 
-
-
-
-
 const ProductPage = () => {
   const [selectedImage, setSelectedImage] = useState(Rings1);
   const [selectedColor, setSelectedColor] = useState("pink");
@@ -54,23 +50,20 @@ const ProductPage = () => {
                 key={index}
                 src={img}
                 alt={`Thumbnail ${index + 1}`}
-                className={`w-20 h-20 cursor-pointer object-cover border-2 ${
-                  selectedImage === img
-                    ? "border-blue-500" // Highlight selected image
-                    : "border-transparent opacity-50 hover:opacity-100"
-                } transition-opacity duration-300`}
+                className={`w-20 h-20 cursor-pointer object-cover border-2 ${selectedImage === img
+                  ? "border-blue-500" // Highlight selected image
+                  : "border-transparent opacity-50 hover:opacity-100"
+                  } transition-opacity duration-300`}
                 onClick={() => setSelectedImage(img)}
               />
             ))}
           </div>
 
-          {/* Main Display Image */}
-          <div className="w-full md:w-[560px] h-[560px]">
-            {/* Fancybox for displaying the image in a lightbox */}
-            <a data-fancybox="gallery" href={selectedImage}>
-              <ZoomImage src={selectedImage} />
-            </a>
+          <div className="relative w-[550px] h-[550px] flex justify-center items-center">
+            <img src={selectedImage}  alt="Zoomable" />
+           
           </div>
+
         </div>
 
         {/* Right Section: Product Details */}
